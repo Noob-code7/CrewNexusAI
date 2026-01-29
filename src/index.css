@@ -2,95 +2,117 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* CrewNexusAI Design System - Indian Color Palette */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Indian Tricolor Inspired */
+    --saffron: 24 100% 50%;
+    --indian-green: 145 77% 30%;
+    --indian-blue: 215 100% 34%;
+    --gold: 45 100% 50%;
+    
+    /* Core palette */
+    --background: 30 20% 98%;
+    --foreground: 215 50% 15%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 215 50% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 215 50% 15%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 24 100% 50%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 145 77% 30%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 30 15% 93%;
+    --muted-foreground: 215 20% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 215 100% 34%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 30 20% 88%;
+    --input: 30 20% 88%;
+    --ring: 24 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Chat specific */
+    --chat-user: 145 77% 30%;
+    --chat-ai: 215 100% 34%;
+    --chat-bubble: 30 30% 96%;
+    
+    /* Success states */
+    --success: 145 77% 30%;
+    --success-foreground: 0 0% 100%;
+    
+    /* Warning */
+    --warning: 45 100% 50%;
+    --warning-foreground: 215 50% 15%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 30 20% 98%;
+    --sidebar-foreground: 215 50% 25%;
+    --sidebar-primary: 24 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 30 20% 94%;
+    --sidebar-accent-foreground: 215 50% 15%;
+    --sidebar-border: 30 20% 88%;
+    --sidebar-ring: 24 100% 50%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 215 50% 8%;
+    --foreground: 30 20% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 215 45% 12%;
+    --card-foreground: 30 20% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 215 45% 12%;
+    --popover-foreground: 30 20% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 24 100% 55%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 145 70% 35%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 215 40% 18%;
+    --muted-foreground: 30 15% 60%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 215 90% 45%;
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 215 40% 20%;
+    --input: 215 40% 20%;
+    --ring: 24 100% 55%;
+
+    --chat-user: 145 70% 35%;
+    --chat-ai: 215 90% 45%;
+    --chat-bubble: 215 40% 15%;
+    
+    --success: 145 70% 35%;
+    --success-foreground: 0 0% 100%;
+    
+    --warning: 45 90% 55%;
+    --warning-foreground: 215 50% 10%;
+
+    --sidebar-background: 215 50% 10%;
+    --sidebar-foreground: 30 20% 90%;
+    --sidebar-primary: 24 100% 55%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 215 40% 18%;
+    --sidebar-accent-foreground: 30 20% 95%;
+    --sidebar-border: 215 40% 20%;
+    --sidebar-ring: 24 100% 55%;
   }
 }
 
@@ -101,5 +123,82 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Inter', 'Noto Sans Devanagari', 'Noto Sans Tamil', 'Noto Sans Bengali', system-ui, sans-serif;
   }
+
+  /* Support for Indian scripts */
+  .font-hindi {
+    font-family: 'Noto Sans Devanagari', 'Mangal', sans-serif;
+  }
+
+  .font-tamil {
+    font-family: 'Noto Sans Tamil', 'Latha', sans-serif;
+  }
+
+  .font-bengali {
+    font-family: 'Noto Sans Bengali', 'Vrinda', sans-serif;
+  }
+}
+
+/* Animations */
+@keyframes pulse-saffron {
+  0%, 100% {
+    box-shadow: 0 0 0 0 hsl(24 100% 50% / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px hsl(24 100% 50% / 0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes count-up {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-pulse-saffron {
+  animation: pulse-saffron 2s infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
+
+.animate-count {
+  animation: count-up 0.2s ease-out;
+}
+
+/* Gradient utilities */
+.gradient-saffron {
+  background: linear-gradient(135deg, hsl(24 100% 50%) 0%, hsl(35 100% 55%) 100%);
+}
+
+.gradient-tricolor {
+  background: linear-gradient(90deg, hsl(24 100% 50%) 0%, hsl(0 0% 100%) 50%, hsl(145 77% 30%) 100%);
+}
+
+/* Glass effect */
+.glass {
+  background: hsl(0 0% 100% / 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid hsl(0 0% 100% / 0.2);
+}
+
+.dark .glass {
+  background: hsl(215 45% 12% / 0.8);
+  border: 1px solid hsl(215 40% 25% / 0.3);
 }

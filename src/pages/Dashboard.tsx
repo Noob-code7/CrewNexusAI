@@ -1,0 +1,277 @@
+import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import ChatPanel from "@/components/dashboard/ChatPanel";
+import SimulationPanel from "@/components/dashboard/SimulationPanel";
+import ResultsPanel from "@/components/dashboard/ResultsPanel";
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import { ChatMessage, LeadAnalysis, SupportedLanguage } from "@/types";
+import { useIsMobile } from "@/hooks/use-mobile";
+
+const Dashboard = () => {
+  const location = useLocation();
+  const isMobile = useIsMobile();
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [currentAnalysis, setCurrentAnalysis] = useState<LeadAnalysis | null>(null);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>('hi');
+  const [activePanel, setActivePanel] = useState<'chat' | 'simulation' | 'results'>('chat');
+
+  // Handle initial message from landing page
+  useEffect(() => {
+    const state = location.state as { initialMessage?: string } | null;
+    if (state?.initialMessage) {
+      // Clear state to prevent re-sending on refresh
+      window.history.replaceState({}, document.title);
+      
+      // Send the message after a short delay
+      setTimeout(() => {
+        handleSendMessage(state.initialMessage!);
+      }, 500);
+    }
+  }, []);
+
+  const handleSendMessage = async (content: string) => {
+    if (!content.trim() || isProcessing) return;
+
+    const userMessage: ChatMessage = {
+      id: crypto.randomUUID(),
+      role: 'user',
+      content: content.trim(),
+      timestamp: new Date(),
+    };
+
+    setMessages(prev => [...prev, userMessage]);
+    setIsProcessing(true);
+    setCurrentAnalysis(null);
+
+    try {
+      // Call the AI edge function
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/analyze-lead`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ message: content }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Failed to analyze lead');
+      }
+
+      const data = await response.json();
+      
+      // Create assistant message with analysis
+      const assistantMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: data.summary || 'Analysis complete',
+        timestamp: new Date(),
+        language: data.analysis?.detectedLanguage,
+        analysis: data.analysis,
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+      setCurrentAnalysis(data.analysis);
+      
+      // Auto-switch to simulation panel on mobile
+      if (isMobile) {
+        setActivePanel('simulation');
+      }
+    } catch (error) {
+      console.error('Error analyzing lead:', error);
+      
+      // Fallback with mock data for demo
+      const mockAnalysis = getMockAnalysis(content);
+      
+      const assistantMessage: ChatMessage = {
+        id: crypto.randomUUID(),
+        role: 'assistant',
+        content: `I've analyzed your lead. Here's what I found:`,
+        timestamp: new Date(),
+        language: mockAnalysis.detectedLanguage,
+        analysis: mockAnalysis,
+      };
+
+      setMessages(prev => [...prev, assistantMessage]);
+      setCurrentAnalysis(mockAnalysis);
+      
+      if (isMobile) {
+        setActivePanel('simulation');
+      }
+    } finally {
+      setIsProcessing(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex flex-col">
+      <DashboardHeader 
+        selectedLanguage={selectedLanguage}
+        onLanguageChange={setSelectedLanguage}
+      />
+      
+      {/* Mobile tab navigation */}
+      {isMobile && (
+        <div className="flex border-b border-border bg-card">
+          {(['chat', 'simulation', 'results'] as const).map((panel) => (
+            <button
+              key={panel}
+              onClick={() => setActivePanel(panel)}
+              className={`flex-1 py-3 text-sm font-medium transition-colors ${
+                activePanel === panel
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {panel === 'chat' && 'Chat'}
+              {panel === 'simulation' && 'Analysis'}
+              {panel === 'results' && 'Results'}
+            </button>
+          ))}
+        </div>
+      )}
+      
+      {/* Main content */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Desktop: 3-panel layout */}
+        {!isMobile ? (
+          <>
+            <div className="w-[30%] border-r border-border">
+              <ChatPanel
+                messages={messages}
+                onSendMessage={handleSendMessage}
+                isProcessing={isProcessing}
+                selectedLanguage={selectedLanguage}
+              />
+            </div>
+            <div className="w-[40%] border-r border-border">
+              <SimulationPanel
+                analysis={currentAnalysis}
+                isProcessing={isProcessing}
+              />
+            </div>
+            <div className="w-[30%]">
+              <ResultsPanel
+                analysis={currentAnalysis}
+                isProcessing={isProcessing}
+              />
+            </div>
+          </>
+        ) : (
+          /* Mobile: Single panel view */
+          <div className="flex-1">
+            {activePanel === 'chat' && (
+              <ChatPanel
+                messages={messages}
+                onSendMessage={handleSendMessage}
+                isProcessing={isProcessing}
+                selectedLanguage={selectedLanguage}
+              />
+            )}
+            {activePanel === 'simulation' && (
+              <SimulationPanel
+                analysis={currentAnalysis}
+                isProcessing={isProcessing}
+              />
+            )}
+            {activePanel === 'results' && (
+              <ResultsPanel
+                analysis={currentAnalysis}
+                isProcessing={isProcessing}
+              />
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Mock analysis for fallback/demo
+function getMockAnalysis(input: string): LeadAnalysis {
+  // Detect language based on script
+  let detectedLanguage: SupportedLanguage = 'en';
+  if (/[\u0900-\u097F]/.test(input)) detectedLanguage = 'hi';
+  else if (/[\u0980-\u09FF]/.test(input)) detectedLanguage = 'bn';
+  else if (/[\u0B80-\u0BFF]/.test(input)) detectedLanguage = 'ta';
+
+  const regions: Record<SupportedLanguage, 'north' | 'south' | 'east' | 'west'> = {
+    hi: 'north',
+    ta: 'south',
+    bn: 'east',
+    en: 'west',
+  };
+
+  return {
+    detectedLanguage,
+    region: detectedLanguage === 'hi' ? 'North India' : detectedLanguage === 'ta' ? 'South India' : detectedLanguage === 'bn' ? 'East India' : 'Pan India',
+    industry: 'Retail/Kirana',
+    entities: {
+      products: [
+        { name: 'चावल', nameEnglish: 'Rice', quantity: 50, unit: 'kg', unitPrice: 45 },
+        { name: 'तेल', nameEnglish: 'Oil', quantity: 20, unit: 'litre', unitPrice: 150 },
+      ],
+      quantity: '50 kg + 20 litre',
+      timeline: 'Tomorrow morning',
+      paymentTerms: 'Credit',
+      totalValue: 5250,
+    },
+    culturalContext: {
+      region: regions[detectedLanguage],
+      festivalSeason: null,
+      negotiationStyle: 'Relationship-based, uses familiar terms (भैया)',
+      paymentPreference: 'credit',
+    },
+    simulations: [
+      {
+        id: 1,
+        approach: 'Discount for Cash',
+        description: 'Offer 5% discount for immediate UPI payment',
+        vernacularResponse: detectedLanguage === 'hi' 
+          ? 'भैया, अगर अभी UPI से पेमेंट करो तो 5% छूट मिलेगी!'
+          : 'Brother, 5% discount if you pay now via UPI!',
+        winProbability: 65,
+        pros: ['Immediate cash flow', 'No credit risk'],
+        cons: ['Lower margin', 'May lose deal'],
+      },
+      {
+        id: 2,
+        approach: '2-Week Credit with Discount',
+        description: 'Offer 3% discount with 14-day credit period',
+        vernacularResponse: detectedLanguage === 'hi'
+          ? 'भैया, 14 दिन का क्रेडिट दूंगा, और 3% की छूट भी!'
+          : 'Brother, I\'ll give 14 days credit with 3% discount!',
+        winProbability: 80,
+        pros: ['High win rate', 'Builds relationship', 'Reasonable margin'],
+        cons: ['2-week wait for payment'],
+      },
+      {
+        id: 3,
+        approach: 'Free Delivery',
+        description: 'Full price but free home delivery',
+        vernacularResponse: detectedLanguage === 'hi'
+          ? 'भैया, पूरा पैसा दो, लेकिन डिलीवरी फ्री!'
+          : 'Brother, pay full price but delivery is free!',
+        winProbability: 45,
+        pros: ['Full margin retained'],
+        cons: ['Lower win probability', 'Delivery cost'],
+      },
+    ],
+    cashFlow: {
+      totalAmount: 5250,
+      payments: [
+        { amount: 0, expectedDate: new Date(), method: 'upi', probability: 20 },
+        { amount: 5250, expectedDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), method: 'credit', probability: 80 },
+      ],
+      riskFactors: ['Credit customer', 'No advance payment'],
+      workingCapitalImpact: -5250,
+    },
+    recommendedApproach: 2,
+  };
+}
+
+export default Dashboard;

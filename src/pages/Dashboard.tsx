@@ -64,6 +64,14 @@ const Dashboard = () => {
 
       const data = await response.json();
       
+      // Parse dates in cash flow payments
+      if (data.analysis?.cashFlow?.payments) {
+        data.analysis.cashFlow.payments = data.analysis.cashFlow.payments.map((payment: any) => ({
+          ...payment,
+          expectedDate: new Date(payment.expectedDate),
+        }));
+      }
+      
       // Create assistant message with analysis
       const assistantMessage: ChatMessage = {
         id: crypto.randomUUID(),
@@ -215,6 +223,19 @@ function getMockAnalysis(input: string): LeadAnalysis {
     kn: 'south',
     ml: 'south',
     gu: 'west',
+  };
+
+  const languageNames: Record<SupportedLanguage, string> = {
+    en: 'English',
+    hi: 'Hindi',
+    ta: 'Tamil',
+    bn: 'Bengali',
+    te: 'Telugu',
+    gu: 'Gujarati',
+    mr: 'Marathi',
+    kn: 'Kannada',
+    ml: 'Malayalam',
+    pa: 'Punjabi',
   };
 
   return {

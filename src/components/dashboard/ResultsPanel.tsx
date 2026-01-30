@@ -169,7 +169,7 @@ const ResultsPanel = ({ analysis, isProcessing }: ResultsPanelProps) => {
                               </span>
                             </div>
                             <div className="text-xs text-muted-foreground">
-                              {payment.expectedDate.toLocaleDateString('en-IN', {
+                              {new Date(payment.expectedDate).toLocaleDateString('en-IN', {
                                 day: 'numeric',
                                 month: 'short',
                                 year: 'numeric',

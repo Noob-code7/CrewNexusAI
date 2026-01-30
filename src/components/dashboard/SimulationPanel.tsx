@@ -114,7 +114,17 @@ const SimulationPanel = ({ analysis, isProcessing }: SimulationPanelProps) => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-3 rounded-lg bg-muted/50">
                   <div className="text-xs text-muted-foreground mb-1">Language</div>
-                  <div className="font-medium capitalize">{analysis.detectedLanguage === 'hi' ? 'Hindi' : analysis.detectedLanguage === 'ta' ? 'Tamil' : analysis.detectedLanguage === 'bn' ? 'Bengali' : 'English'}</div>
+                  <div className="font-medium capitalize">
+                    {analysis.detectedLanguage === 'hi' ? 'Hindi' :
+                     analysis.detectedLanguage === 'ta' ? 'Tamil' :
+                     analysis.detectedLanguage === 'bn' ? 'Bengali' :
+                     analysis.detectedLanguage === 'te' ? 'Telugu' :
+                     analysis.detectedLanguage === 'gu' ? 'Gujarati' :
+                     analysis.detectedLanguage === 'mr' ? 'Marathi' :
+                     analysis.detectedLanguage === 'kn' ? 'Kannada' :
+                     analysis.detectedLanguage === 'ml' ? 'Malayalam' :
+                     analysis.detectedLanguage === 'pa' ? 'Punjabi' : 'English'}
+                  </div>
                 </div>
                 <div className="p-3 rounded-lg bg-muted/50">
                   <div className="text-xs text-muted-foreground mb-1">Region</div>

@@ -244,6 +244,10 @@ const ResultsPanel = ({ analysis, isProcessing }: ResultsPanelProps) => {
                   <Calendar className="w-4 h-4 mr-2 text-accent" />
                   Schedule Follow-up
                 </Button>
+                <Button variant="secondary" className="w-full justify-start" size="sm">
+                  <IndianRupee className="w-4 h-4 mr-2 text-primary" />
+                  Connect to Bank
+                </Button>
               </CardContent>
             </Card>
           </motion.div>

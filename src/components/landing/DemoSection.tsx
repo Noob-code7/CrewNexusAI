@@ -148,7 +148,7 @@ const DemoSection = () => {
                   <span className="inline-flex items-center gap-1 px-2 py-1 rounded bg-muted text-xs">
                     🇮🇳 Auto-detect
                   </span>
-                  <span className="hidden sm:inline">Hindi, Tamil, Bengali, English</span>
+                  <span className="hidden sm:inline">Hindi, Tamil, Bengali, Telugu & 6 more</span>
                 </div>
 
                 <Button

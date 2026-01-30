@@ -66,7 +66,8 @@ const ChatPanel = ({ messages, onSendMessage, isProcessing, selectedLanguage }: 
             </div>
             <h3 className="font-semibold text-lg mb-2">Start a Conversation</h3>
             <p className="text-sm text-muted-foreground max-w-xs">
-              Type a sales lead in Hindi, Tamil, Bengali, or English. I'll analyze it instantly!
+              Type a sales lead in Hindi, Tamil, Bengali, Telugu, Gujarati, Marathi, Kannada, Malayalam, Punjabi, or English.
+              I’ll analyze it instantly!
             </p>
             
             {/* Quick examples */}
@@ -75,6 +76,8 @@ const ChatPanel = ({ messages, onSendMessage, isProcessing, selectedLanguage }: 
                 { lang: 'hi', text: 'भैया, 50 किलो चावल चाहिए' },
                 { lang: 'ta', text: '100 மீட்டர் சில்க் வேண்டும்' },
                 { lang: 'bn', text: '২০০ লিটার তেল দরকার' },
+                { lang: 'te', text: 'అన్నా, 100 కిలో బియ్యం రేపటికి కావాలి' },
+                { lang: 'gu', text: 'ભાઈ, 200 લિટર તેલ જોઈએ, એક મહિનો ક્રેડિટ' },
               ].map((example) => (
                 <button
                   key={example.lang}

@@ -1,18 +1,43 @@
 // Language types
-export type SupportedLanguage = 'en' | 'hi' | 'bn' | 'ta';
+export type SupportedLanguage =
+  | 'en'
+  | 'hi'
+  | 'ta'
+  | 'bn'
+  | 'te'
+  | 'gu'
+  | 'mr'
+  | 'kn'
+  | 'ml'
+  | 'pa';
 
 export interface LanguageOption {
   code: SupportedLanguage;
   name: string;
   nativeName: string;
-  script: 'latin' | 'devanagari' | 'bengali' | 'tamil';
+  script:
+    | 'latin'
+    | 'devanagari'
+    | 'bengali'
+    | 'tamil'
+    | 'telugu'
+    | 'gujarati'
+    | 'kannada'
+    | 'malayalam'
+    | 'gurmukhi';
 }
 
 export const SUPPORTED_LANGUAGES: LanguageOption[] = [
   { code: 'en', name: 'English', nativeName: 'English', script: 'latin' },
   { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', script: 'devanagari' },
-  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা', script: 'bengali' },
   { code: 'ta', name: 'Tamil', nativeName: 'தமிழ்', script: 'tamil' },
+  { code: 'bn', name: 'Bengali', nativeName: 'বাংলা', script: 'bengali' },
+  { code: 'te', name: 'Telugu', nativeName: 'తెలుగు', script: 'telugu' },
+  { code: 'gu', name: 'Gujarati', nativeName: 'ગુજરાતી', script: 'gujarati' },
+  { code: 'mr', name: 'Marathi', nativeName: 'मराठी', script: 'devanagari' },
+  { code: 'kn', name: 'Kannada', nativeName: 'ಕನ್ನಡ', script: 'kannada' },
+  { code: 'ml', name: 'Malayalam', nativeName: 'മലയാളം', script: 'malayalam' },
+  { code: 'pa', name: 'Punjabi', nativeName: 'ਪੰਜਾਬੀ', script: 'gurmukhi' },
 ];
 
 // Chat types

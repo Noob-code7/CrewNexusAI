@@ -24,9 +24,9 @@ const SimulationPanel = ({ analysis, isProcessing }: SimulationPanelProps) => {
   // Processing steps for visualization
   const processingSteps = [
     { id: 'detect', label: 'Detecting Language', icon: Languages },
-    { id: 'region', label: 'Analyzing Region', icon: MapPin },
+    { id: 'region', label: 'Cultural & Regional Context', icon: MapPin },
     { id: 'entities', label: 'Extracting Entities', icon: Package },
-    { id: 'simulate', label: 'Running Simulations', icon: Target },
+    { id: 'simulate', label: 'Running 3 Parallel Simulations', icon: Target },
   ];
 
   if (!analysis && !isProcessing) {

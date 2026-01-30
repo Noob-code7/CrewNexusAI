@@ -90,7 +90,7 @@ const HeroSection = () => {
               From sales lead to cash in bank — in{" "}
               <span className="font-semibold text-foreground">Hindi</span>,{" "}
               <span className="font-semibold text-foreground">Tamil</span>,{" "}
-              <span className="font-semibold text-foreground">Bengali</span> & English
+              <span className="font-semibold text-foreground">Bengali</span> & 8 more Indian languages
             </motion.p>
 
             {/* Language showcase */}
@@ -104,6 +104,8 @@ const HeroSection = () => {
                 { lang: "हिन्दी", color: "bg-primary/10 text-primary" },
                 { lang: "தமிழ்", color: "bg-secondary/10 text-secondary" },
                 { lang: "বাংলা", color: "bg-accent/10 text-accent" },
+                { lang: "తెలుగు", color: "bg-primary/10 text-primary" },
+                { lang: "मराठी", color: "bg-secondary/10 text-secondary" },
                 { lang: "English", color: "bg-muted text-muted-foreground" },
               ].map((item, index) => (
                 <motion.span
@@ -127,7 +129,7 @@ const HeroSection = () => {
             >
               <Button
                 size="lg"
-                onClick={() => navigate("/dashboard")}
+                onClick={() => document.getElementById('demo-section')?.scrollIntoView({ behavior: 'smooth' })}
                 className="gradient-saffron text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 group"
               >
                 Try Free Demo
@@ -136,11 +138,11 @@ const HeroSection = () => {
               <Button
                 size="lg"
                 variant="outline"
-                onClick={() => document.getElementById('demo-section')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => navigate("/dashboard")}
                 className="border-2"
               >
                 <Languages className="w-4 h-4 mr-2" />
-                See It In Action
+                Open Dashboard
               </Button>
             </motion.div>
 

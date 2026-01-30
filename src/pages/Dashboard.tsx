@@ -195,20 +195,41 @@ const Dashboard = () => {
 function getMockAnalysis(input: string): LeadAnalysis {
   // Detect language based on script
   let detectedLanguage: SupportedLanguage = 'en';
-  if (/[\u0900-\u097F]/.test(input)) detectedLanguage = 'hi';
-  else if (/[\u0980-\u09FF]/.test(input)) detectedLanguage = 'bn';
-  else if (/[\u0B80-\u0BFF]/.test(input)) detectedLanguage = 'ta';
+  if (/[\u0B80-\u0BFF]/.test(input)) detectedLanguage = 'ta'; // Tamil
+  else if (/[\u0980-\u09FF]/.test(input)) detectedLanguage = 'bn'; // Bengali
+  else if (/[\u0C00-\u0C7F]/.test(input)) detectedLanguage = 'te'; // Telugu
+  else if (/[\u0A80-\u0AFF]/.test(input)) detectedLanguage = 'gu'; // Gujarati
+  else if (/[\u0C80-\u0CFF]/.test(input)) detectedLanguage = 'kn'; // Kannada
+  else if (/[\u0D00-\u0D7F]/.test(input)) detectedLanguage = 'ml'; // Malayalam
+  else if (/[\u0A00-\u0A7F]/.test(input)) detectedLanguage = 'pa'; // Punjabi (Gurmukhi)
+  else if (/[\u0900-\u097F]/.test(input)) detectedLanguage = 'hi'; // Devanagari (Hindi/Marathi)
 
   const regions: Record<SupportedLanguage, 'north' | 'south' | 'east' | 'west'> = {
-    hi: 'north',
-    ta: 'south',
-    bn: 'east',
     en: 'west',
+    hi: 'north',
+    mr: 'west',
+    pa: 'north',
+    bn: 'east',
+    ta: 'south',
+    te: 'south',
+    kn: 'south',
+    ml: 'south',
+    gu: 'west',
   };
 
   return {
     detectedLanguage,
-    region: detectedLanguage === 'hi' ? 'North India' : detectedLanguage === 'ta' ? 'South India' : detectedLanguage === 'bn' ? 'East India' : 'Pan India',
+    region:
+      detectedLanguage === 'hi' ? 'North India'
+      : detectedLanguage === 'pa' ? 'North India'
+      : detectedLanguage === 'bn' ? 'East India'
+      : detectedLanguage === 'ta' ? 'Tamil Nadu'
+      : detectedLanguage === 'te' ? 'Telangana / Andhra Pradesh'
+      : detectedLanguage === 'kn' ? 'Karnataka'
+      : detectedLanguage === 'ml' ? 'Kerala'
+      : detectedLanguage === 'gu' ? 'Gujarat'
+      : detectedLanguage === 'mr' ? 'Maharashtra'
+      : 'Pan India',
     industry: 'Retail/Kirana',
     entities: {
       products: [
@@ -231,9 +252,24 @@ function getMockAnalysis(input: string): LeadAnalysis {
         id: 1,
         approach: 'Discount for Cash',
         description: 'Offer 5% discount for immediate UPI payment',
-        vernacularResponse: detectedLanguage === 'hi' 
-          ? 'भैया, अगर अभी UPI से पेमेंट करो तो 5% छूट मिलेगी!'
-          : 'Brother, 5% discount if you pay now via UPI!',
+        vernacularResponse:
+          detectedLanguage === 'hi'
+            ? 'भैया, अगर अभी UPI से पेमेंट करो तो 5% छूट मिलेगी!'
+          : detectedLanguage === 'bn'
+            ? 'ভাই, এখনই UPI করলে ৫% ছাড় পাবেন!'
+          : detectedLanguage === 'ta'
+            ? 'அண்ணா, இப்போ UPI பேமெண்ட் செய்தால் 5% தள்ளுபடி!'
+          : detectedLanguage === 'te'
+            ? 'అన్నా, ఇప్పుడే UPI చేస్తే 5% డిస్కౌంట్!'
+          : detectedLanguage === 'gu'
+            ? 'ભાઈ, હમણાં UPI કરો તો 5% છૂટ મળશે!'
+          : detectedLanguage === 'kn'
+            ? 'ಅಣ್ಣಾ, ಈಗಲೇ UPI ಮಾಡಿದರೆ 5% ರಿಯಾಯಿತಿ!'
+          : detectedLanguage === 'ml'
+            ? 'ചേട്ടാ, ഇപ്പോൾ UPI ചെയ്താൽ 5% ഡിസ്കൗണ്ട്!'
+          : detectedLanguage === 'pa'
+            ? 'ਭਰਾ, ਹੁਣੇ UPI ਕਰੋ ਤਾਂ 5% ਛੂਟ ਮਿਲੇਗੀ!'
+          : '5% discount if you pay now via UPI!',
         winProbability: 65,
         pros: ['Immediate cash flow', 'No credit risk'],
         cons: ['Lower margin', 'May lose deal'],
@@ -242,9 +278,24 @@ function getMockAnalysis(input: string): LeadAnalysis {
         id: 2,
         approach: '2-Week Credit with Discount',
         description: 'Offer 3% discount with 14-day credit period',
-        vernacularResponse: detectedLanguage === 'hi'
-          ? 'भैया, 14 दिन का क्रेडिट दूंगा, और 3% की छूट भी!'
-          : 'Brother, I\'ll give 14 days credit with 3% discount!',
+        vernacularResponse:
+          detectedLanguage === 'hi'
+            ? 'भैया, 14 दिन का क्रेडिट दूंगा, और 3% की छूट भी!'
+          : detectedLanguage === 'bn'
+            ? 'ভাই, ১৪ দিনের ক্রেডিট দেব, সাথে ৩% ছাড়ও!'
+          : detectedLanguage === 'ta'
+            ? 'அண்ணா, 14 நாள் கிரெடிட் + 3% தள்ளுபடி!'
+          : detectedLanguage === 'te'
+            ? 'అన్నా, 14 రోజుల క్రెడిట్ + 3% డిస్కౌంట్!'
+          : detectedLanguage === 'gu'
+            ? 'ભાઈ, 14 દિવસનું ક્રેડિટ + 3% છૂટ!'
+          : detectedLanguage === 'kn'
+            ? 'ಅಣ್ಣಾ, 14 ದಿನ ಕ್ರೆಡಿಟ್ + 3% ರಿಯಾಯಿತಿ!'
+          : detectedLanguage === 'ml'
+            ? 'ചേട്ടാ, 14 ദിവസം ക്രെഡിറ്റ് + 3% ഡിസ്കൗണ്ട്!'
+          : detectedLanguage === 'pa'
+            ? 'ਭਰਾ, 14 ਦਿਨਾਂ ਦਾ ਕਰੇਡਿਟ + 3% ਛੂਟ!'
+          : 'I can give 14 days credit with 3% discount!',
         winProbability: 80,
         pros: ['High win rate', 'Builds relationship', 'Reasonable margin'],
         cons: ['2-week wait for payment'],
@@ -253,9 +304,24 @@ function getMockAnalysis(input: string): LeadAnalysis {
         id: 3,
         approach: 'Free Delivery',
         description: 'Full price but free home delivery',
-        vernacularResponse: detectedLanguage === 'hi'
-          ? 'भैया, पूरा पैसा दो, लेकिन डिलीवरी फ्री!'
-          : 'Brother, pay full price but delivery is free!',
+        vernacularResponse:
+          detectedLanguage === 'hi'
+            ? 'भैया, पूरा पैसा दो, लेकिन डिलीवरी फ्री!'
+          : detectedLanguage === 'bn'
+            ? 'ভাই, পুরো দাম, কিন্তু ডেলিভারি ফ্রি!'
+          : detectedLanguage === 'ta'
+            ? 'அண்ணா, முழு விலை; டெலிவரி ஃப்ரீ!'
+          : detectedLanguage === 'te'
+            ? 'అన్నా, పూర్తి ధర; డెలివరీ ఫ్రీ!'
+          : detectedLanguage === 'gu'
+            ? 'ભાઈ, પૂરો ભાવ; ડિલિવરી ફ્રી!'
+          : detectedLanguage === 'kn'
+            ? 'ಅಣ್ಣಾ, ಪೂರ್ಣ ಬೆಲೆ; ಡೆಲಿವರಿ ಫ್ರೀ!'
+          : detectedLanguage === 'ml'
+            ? 'ചേട്ടാ, ഫുള്‍ പ്രൈസ്; ഡെലിവറി ഫ്രീ!'
+          : detectedLanguage === 'pa'
+            ? 'ਭਰਾ, ਪੂਰਾ ਭਾਵ; ਡਿਲਿਵਰੀ ਫਰੀ!'
+          : 'Pay full price but delivery is free!',
         winProbability: 45,
         pros: ['Full margin retained'],
         cons: ['Lower win probability', 'Delivery cost'],

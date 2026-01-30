@@ -202,3 +202,26 @@
   background: hsl(215 45% 12% / 0.8);
   border: 1px solid hsl(215 40% 25% / 0.3);
 }
+
+/* Print styles */
+@media print {
+  @page {
+    margin: 1cm;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
+  
+  /* Hide non-essential elements when printing */
+  button,
+  .no-print {
+    display: none !important;
+  }
+  
+  /* Ensure invoice content is visible */
+  .print-content {
+    display: block !important;
+  }
+}
